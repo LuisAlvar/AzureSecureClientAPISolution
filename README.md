@@ -135,6 +135,4 @@ I need to research how Key Valute on Azure works.
 [Secure a .NET Core API with Bearer Authentication](https://www.youtube.com/watch?v=3PyUjOmuFic)
 * This is an inspire code walkthrough by Les Jackson.
   
-[Safe sotrage of app secrets in development in ASP.NET Core](
-[https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows]
-)
+[Safe sotrage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows])
