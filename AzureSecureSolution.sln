@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAPI", "SecureAPI\SecureAPI.csproj", "{91D7D6D2-E791-4A93-8B6C-C2768033AC63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureClient", "SecureClient\SecureClient.csproj", "{D9CE1F94-CC8D-4EEC-ABC2-067C06488DA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{91D7D6D2-E791-4A93-8B6C-C2768033AC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91D7D6D2-E791-4A93-8B6C-C2768033AC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91D7D6D2-E791-4A93-8B6C-C2768033AC63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CE1F94-CC8D-4EEC-ABC2-067C06488DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CE1F94-CC8D-4EEC-ABC2-067C06488DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CE1F94-CC8D-4EEC-ABC2-067C06488DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CE1F94-CC8D-4EEC-ABC2-067C06488DA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

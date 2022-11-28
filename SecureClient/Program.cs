@@ -69,7 +69,7 @@ namespace SecureClient
 
             AuthConfig appAuthVars = LoadAppVars.ReadAppVarServices(Services: services, AppSettings: appSettingsFile, IsProduction: !isDevelopment);
             Console.WriteLine("---> able to load all for the application variables to provide design functionality ...");
-            //Console.WriteLine(JsonConvert.SerializeObject(appAuthVars));
+            Console.WriteLine(JsonConvert.SerializeObject(appAuthVars));
 
             Console.WriteLine("Making the Azure Call ....");
             AzureClientConnectionAsync(appAuthVars).GetAwaiter().GetResult();
