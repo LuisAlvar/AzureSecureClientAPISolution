@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>589a32cd-6b3d-4eef-9dc8-0aaabc81e664</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.31" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.8.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>
