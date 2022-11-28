@@ -128,7 +128,7 @@ Then you can run both projects. First the API and then the console app.
 The objective for this project to add these project in a production environment. 
 I need to research how Key Valute on Azure works. 
 
-[https://learn.microsoft.com/en-us/azure/key-vault/]
+[Azure Key Vault Docs](https://learn.microsoft.com/en-us/azure/key-vault/)
 
 # Web Resources
 
