@@ -8,4 +8,5 @@ namespace SecureAPI.Entity
     public string ResourceId { get; set; } = string.Empty;
     public string TenantId { get; set; } = string.Empty;
   }
+
 }

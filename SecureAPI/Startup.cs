@@ -47,9 +47,17 @@ namespace SecureAPI
                 .AddScoped<SecureAPI.Interface.IUserSecrets, SecureAPI.Auth.UserSecrets>();
             }
 
+            if (Environment.IsProduction())
+            {
+                services
+                    .AddScoped<SecureAPI.Interface.IAzureKeyVaultService, SecureAPI.Auth.AzureKeyVaultService>();
+            }
+
             AuthAppConfig appConfig = LoadAppConfig.Auth(AppServices: services, AppSettings: appSettingsFile, IsProduction: Environment.IsProduction());
-            Console.WriteLine(JsonConvert.SerializeObject(appConfig));
-            Console.WriteLine(appConfig.Authority);
+            //Console.WriteLine(JsonConvert.SerializeObject(appConfig));
+            //Console.WriteLine(appConfig.Authority);
+
+            if(string.IsNullOrEmpty(appConfig.ResourceId) && string.IsNullOrEmpty(appConfig.TenantId)) throw new ApplicationException("Application is missing auth data to run API securely...");
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt => {
