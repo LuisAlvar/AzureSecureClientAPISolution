@@ -37,11 +37,16 @@ namespace SecureAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             Console.WriteLine($"----> Added AutoMapper to services ... ");
 
+            Console.WriteLine($"----> Value on Environment is Development {Environment.IsDevelopment()} ... ");
+
+
             var appSettingsFile = ConfigurationAppSettings(AppPath: Directory.GetCurrentDirectory(), IsDevelopment: Environment.IsDevelopment());
             Console.WriteLine($"----> This is the appsettings file for this environment {appSettingsFile}");
 
             if (Environment.IsDevelopment())
             {
+                Console.WriteLine($"----> Add Development Service ... ");
+
                 services.Configure<SecureAPI.Entity.AzureAD>(Configuration.GetSection(nameof(SecureAPI.Entity.AzureAD)))
                 .AddOptions()
                 .AddScoped<SecureAPI.Interface.IUserSecrets, SecureAPI.Auth.UserSecrets>();
@@ -49,12 +54,14 @@ namespace SecureAPI
 
             if (Environment.IsProduction())
             {
+                Console.WriteLine($"----> Add Production Service ... ");
+
                 services
                     .AddScoped<SecureAPI.Interface.IAzureKeyVaultService, SecureAPI.Auth.AzureKeyVaultService>();
             }
 
             AuthAppConfig appConfig = LoadAppConfig.Auth(AppServices: services, AppSettings: appSettingsFile, IsProduction: Environment.IsProduction());
-            //Console.WriteLine(JsonConvert.SerializeObject(appConfig));
+            Console.WriteLine(JsonConvert.SerializeObject(appConfig));
             //Console.WriteLine(appConfig.Authority);
 
             if(string.IsNullOrEmpty(appConfig.ResourceId) && string.IsNullOrEmpty(appConfig.TenantId)) throw new ApplicationException("Application is missing auth data to run API securely...");
@@ -97,7 +104,7 @@ namespace SecureAPI
 
             if(files != null && files.Count() > 0)
             {
-                jsonFiles = files.Where(f => f.ToLower().Contains(".json")).ToList();
+                jsonFiles = files.Where(f => f.ToLower().Contains(".json") && f.ToLower().Contains("appsettings")).ToList();
             }
             else
             {

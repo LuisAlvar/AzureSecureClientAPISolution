@@ -15,7 +15,7 @@ namespace SecureAPI.Auth
   public class AzureKeyVaultService : IAzureKeyVaultService
   {
     public readonly ILogger<AzureKeyVaultService> _logger;
-    private string KeyValueName { get; set; } = Environment.GetEnvironmentVariable("Azure_Key_Vault_Name");
+    private string KeyValueName { get; set; } = string.Empty;
     private string BaseAzureVaultURL = "https://{0}.vault.azure.net";
     private SecretClient _client;
     private string AzureVaultURL { 
@@ -27,18 +27,20 @@ namespace SecureAPI.Auth
 
     public AzureKeyVaultService(ILogger<AzureKeyVaultService> Logger)
     {
+      Console.WriteLine($"----> Apply AzureKeyValueService ...");
       _logger = Logger;
+      KeyValueName = Environment.GetEnvironmentVariable("Azure_Key_Vault_Name", EnvironmentVariableTarget.Machine);
     }
 
     public AuthAppConfig LoadSecrets()
     {
       AuthAppConfig config = new AuthAppConfig();
 
-      Console.WriteLine($"----> This is the Azure URL endpoint: {AzureVaultURL}");
-
       if(!string.IsNullOrEmpty(AzureVaultURL))
       {
+        Console.WriteLine($"----> Calling Azure Portal Key Valut ... ");
         _client = new SecretClient(new Uri(AzureVaultURL), new DefaultAzureCredential());
+        Console.WriteLine("----> SecretClient object established ... ");
       }
 
       if(_client != null)
@@ -47,15 +49,12 @@ namespace SecureAPI.Auth
 
         List<PropertyInfo> properties = typeof(AzureKeyVault).GetProperties().ToList();
 
-        vault.BaseAPIresourceId = _client.GetSecret("BaseAPIresourceId").Value.ToString();
+        properties.ForEach(p => {
+          Console.WriteLine(p.Name);
+          KeyVaultSecret secret =  _client.GetSecret(p.Name.ToString());
+          vault.GetType().GetProperty(p.Name).SetValue(vault, secret.Value);
+        });
 
-        // properties.ForEach(p => {
-        //   Console.WriteLine(p.Name);
-        //   vault.GetType().GetProperty(p.Name).SetValue(this, _client.GetSecret(p.Name.ToString()));
-        // });
-
-        Console.WriteLine(vault.BaseAPIresourceId);
-        Console.WriteLine(vault.SecureDirectoryId);
 
       }
 
