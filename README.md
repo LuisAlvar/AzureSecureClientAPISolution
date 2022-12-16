@@ -101,10 +101,10 @@ For the SecureAPI project
 2. SecureAPIApp_ResourceId (i.e., Your Application ID URL) with /.default
 
 For the SecureClient project 
-1. SecureClientApp_ClientId
-2. SecureClientApp_TenantId
+1. SecureClientApp_ClientId - Console App Registerd Client Id
+2. SecureClientApp_TenantId - Console App Registered Tenant Id
 3. SecureClientApp_ResourceId (aka your SecureAPIApp_ResourceId + /.default )
-4. SecureClientApp_ClientSecret (You client secret Value field value)
+4. SecureClientApp_ClientSecret (You client secret Value field value) - you can allow regenerated 
 
 SecureAPIApp_TenantId == SecureClientApp_TenantId should be the same. 
 
@@ -129,6 +129,12 @@ The objective for this project to add these project in a production environment.
 I need to research how Key Valute on Azure works. 
 
 [Azure Key Vault Docs](https://learn.microsoft.com/en-us/azure/key-vault/)
+
+az login
+
+az account set --subscription "35akss-subscription-id"
+
+Azure_Key_Vault_Name - for production will need to be a environment variable group in the devops pipeline
 
 # Web Resources
 
