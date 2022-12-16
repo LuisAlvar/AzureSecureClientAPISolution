@@ -1,5 +1,5 @@
 
-
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 Function LoadUserSecretsDev
 {
   $ClassName = "AzureAD"
