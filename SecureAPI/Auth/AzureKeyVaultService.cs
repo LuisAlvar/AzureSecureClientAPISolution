@@ -4,9 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using SecureAPI.Entity;
 using SecureAPI.Interface;
 
@@ -15,6 +17,8 @@ namespace SecureAPI.Auth
   public class AzureKeyVaultService : IAzureKeyVaultService
   {
     public readonly ILogger<AzureKeyVaultService> _logger;
+    private readonly IMapper _mapper;
+
     private string KeyValueName { get; set; } = string.Empty;
     private string BaseAzureVaultURL = "https://{0}.vault.azure.net";
     private SecretClient _client;
@@ -25,11 +29,14 @@ namespace SecureAPI.Auth
       }
     }
 
-    public AzureKeyVaultService(ILogger<AzureKeyVaultService> Logger)
+    public AzureKeyVaultService(ILogger<AzureKeyVaultService> Logger, IMapper Mapper)
     {
       Console.WriteLine($"----> Apply AzureKeyValueService ...");
       _logger = Logger;
-      KeyValueName = Environment.GetEnvironmentVariable("Azure_Key_Vault_Name", EnvironmentVariableTarget.Machine);
+      _mapper = Mapper;
+      KeyValueName = Environment.GetEnvironmentVariable("Azure_Key_Vault_Name", EnvironmentVariableTarget.Machine) 
+        ?? Environment.GetEnvironmentVariable("Azure_Key_Vault_Name" , EnvironmentVariableTarget.Process);
+      Console.WriteLine($"---->  AzureKeyValueService Name -- {KeyValueName}");
     }
 
     public AuthAppConfig LoadSecrets()
@@ -50,15 +57,23 @@ namespace SecureAPI.Auth
         List<PropertyInfo> properties = typeof(AzureKeyVault).GetProperties().ToList();
 
         properties.ForEach(p => {
-          Console.WriteLine(p.Name);
           KeyVaultSecret secret =  _client.GetSecret(p.Name.ToString());
+          //Console.WriteLine($"{p.Name} -- {secret.Value}");
           vault.GetType().GetProperty(p.Name).SetValue(vault, secret.Value);
         });
 
+        Console.WriteLine($"----> Done fetching azure secrets");
+
+
+        //Console.WriteLine($"---> vault object -- " + JsonConvert.SerializeObject(vault).ToString());
+
+        config = _mapper.Map<AuthAppConfig>(vault);
+        
+        //Console.WriteLine($"---> config object -- " + JsonConvert.SerializeObject(config).ToString());
 
       }
-
-      return new AuthAppConfig();
+      
+      return config;
     }
     
   }
