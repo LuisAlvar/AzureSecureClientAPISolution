@@ -3,7 +3,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - README.md
 
 resources:
 - repo: self
@@ -12,18 +17,20 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/SecureAPI/Dockerfile'
-        tags: |
-          $(tag)
+  - stage: Build
+    displayName: Build Docker Image 
+    jobs:
+    - job: Build 
+      displayName: Build Docker Image
+      pool:
+        vmImage: ubuntu-latest
+      steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'DockerHub(luisenalvar)'
+          repository: 'luisenalvar/azsecureapi'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(tag)
+
