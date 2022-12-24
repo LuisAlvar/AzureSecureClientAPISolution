@@ -25,9 +25,8 @@ stages:
         vmImage: ubuntu-latest
       steps:
       - bash: |
-          echo $(date + %Y)
-          echo $(Pipeline.Workspace)
-          echo $(Azure_Key_Vault_Name)
+          echo '##This is the pipeline workspace $(Pipeline.Workspace)'
+          echo '##This is the environment variable for Azure_Key_Vault_Name --- $(Azure_Key_Vault_Name)'
       - task: Docker@2
         inputs:
           containerRegistry: 'DockerHub(luisenalvar)'
