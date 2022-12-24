@@ -23,10 +23,12 @@ stages:
       displayName: Build Docker Image
       pool:
         vmImage: ubuntu-latest
+      variables: 
+      - group: AzureKeyVaultVars
       steps:
       - bash: |
           echo '##This is the pipeline workspace $(Pipeline.Workspace)'
-          echo '##This is the environment variable for Azure_Key_Vault_Name --- $(Azure_Key_Vault_Name)'
+          echo '##This is the environment variable for Azure_Key_Vault_Name $(Azure_Key_Vault_Name)'
       - task: Docker@2
         inputs:
           containerRegistry: 'DockerHub(luisenalvar)'
