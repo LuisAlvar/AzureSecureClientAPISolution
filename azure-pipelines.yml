@@ -1,7 +1,6 @@
 # Docker
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
   branches:
     include:
@@ -25,12 +24,16 @@ stages:
       pool:
         vmImage: ubuntu-latest
       steps:
+      - bash: |
+          echo $(date + %Y)
+          echo $(Pipeline.Workspace)
       - task: Docker@2
         inputs:
           containerRegistry: 'DockerHub(luisenalvar)'
           repository: 'luisenalvar/azsecureapi'
-          command: 'buildAndPush'
+          command: 'build'
           Dockerfile: '**/Dockerfile'
+          arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
           tags: |
             $(tag)
 
