@@ -124,6 +124,35 @@ Then run the following powershell scripts within each root directory project. Th
 
 Then you can run both projects. First the API and then the console app. 
 
+# UAT or Pre-Production Environment 
+To locally test production functionality you can change the ASPNETCORE_ENVIRONMENT from **Development** to **Production** launchSettings.json 
+
+```json
+{
+  "profiles": {
+    "EnvironmentsSample": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+```
+Run the applicaiton using **dotnet run** command 
+
+Or, we can create an docker image for a more production setting environment. 
+
+## Types of Docker Environment Variables 
+There are two enviroment variable types: 
+* ARG variables usually store important high-level configuration parameters, such as the version of the OS or a library. They are build-time variables, i.e., their only purpose is to assist in building a Docker image. 
+  
+* ENV variables store values such as secrets, API keys, and database URLs. They persist inside the image and the containers created from that template. Users can override ENV values in the command line or proivde an new value in an env file. 
+  
+	
+
 # Next Steps
 The objective for this project to add these project in a production environment. 
 I need to research how Key Valute on Azure works. 
@@ -136,9 +165,13 @@ az account set --subscription "35akss-subscription-id"
 
 Azure_Key_Vault_Name - for production will need to be a environment variable group in the devops pipeline
 
+
+
 # Web Resources
 
 [Secure a .NET Core API with Bearer Authentication](https://www.youtube.com/watch?v=3PyUjOmuFic)
 * This is an inspire code walkthrough by Les Jackson.
   
 [Safe sotrage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows])
+
+[How to Set Docker Environment Variables](https://phoenixnap.com/kb/docker-environment-variables)
