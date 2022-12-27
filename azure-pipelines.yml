@@ -39,14 +39,9 @@ stages:
           containerRegistry: 'DockerHub(luisenalvar)'
           repository: 'luisenalvar/azsecureapi'
           Dockerfile: '**/Dockerfile'
-          command: 'build'
+          command: 'buildAndPush'
           arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
           tags: |
             $(tag)
-      - script: |
-            docker images
-            echo 'SPACE'
-            docker push luisenalvarez/azsecureapi
-  
 
 
