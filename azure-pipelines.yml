@@ -21,7 +21,7 @@ stages:
     jobs:
 
     - job: Build 
-      displayName: Build Docker Image
+      displayName: Build and Push Docker Image
       pool:
         vmImage: ubuntu-latest
       variables: 
@@ -43,16 +43,8 @@ stages:
           arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
           tags: |
             $(tag)
-    
-    - job: Push 
-      displayName: Push Docker Image 
-      pool: 
-        vmImage: ubuntu-latest
-      steps:
-      - bash: |
-          echo 'Pushing the docker image to Docker Hub'
-      - task: Docker@2
       - script: |
+            docker images
             docker push luisenalvarez/azsecureapi:$(tag)
   
 
