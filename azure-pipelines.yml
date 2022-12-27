@@ -45,7 +45,8 @@ stages:
             $(tag)
       - script: |
             docker images
-            docker push luisenalvarez/azsecureapi:$(tag)
+            echo 'SPACE'
+            docker push luisenalvarez/azsecureapi
   
 
 
