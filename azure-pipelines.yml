@@ -16,9 +16,10 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-  - stage: Build
-    displayName: Build Docker Image 
+  - stage: Docker
+    displayName: Build And Push Docker Image 
     jobs:
+
     - job: Build 
       displayName: Build Docker Image
       pool:
@@ -27,15 +28,32 @@ stages:
       - group: AzureKeyVaultVars
       steps:
       - bash: |
+          echo 'Building the docker image on azure pipeline'
           echo '##This is the pipeline workspace $(Pipeline.Workspace)'
           echo '##This is the environment variable for Azure_Key_Vault_Name $(Azure_Key_Vault_Name)'
+          echo 'current tag value $(tag)'
+          ls
+          pwd
       - task: Docker@2
         inputs:
           containerRegistry: 'DockerHub(luisenalvar)'
           repository: 'luisenalvar/azsecureapi'
-          command: 'build'
           Dockerfile: '**/Dockerfile'
+          command: 'build'
           arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
           tags: |
             $(tag)
+    
+    - job: Push 
+      displayName: Push Docker Image 
+      pool: 
+        vmImage: ubuntu-latest
+      steps:
+      - bash: |
+          echo 'Pushing the docker image to Docker Hub'
+      - task: Docker@2
+      - script: |
+            docker push luisenalvarez/azsecureapi:$(tag)
+  
+
 
