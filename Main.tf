@@ -35,7 +35,7 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
   dns_name_label      = "archtechorgac"
   os_type             = "Linux"
   container {
-    name = "SecureAPI"
+    name = "azsecureapi"
     image = "luisenalvar/azsecureapi:${var.imagebuildid}"
     cpu = "1.0"
     memory = "1.0"
