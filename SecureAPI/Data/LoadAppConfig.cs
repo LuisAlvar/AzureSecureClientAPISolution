@@ -26,7 +26,7 @@ namespace SecureAPI.Data
       if(IsProduction && isAzureKeyVaultServiceImplemented)
       {
         IAzureKeyVaultService azKeyVaultService = AppServices.BuildServiceProvider().GetService<SecureAPI.Interface.IAzureKeyVaultService>();
-        config.Merge(azKeyVaultService.LoadSecrets());
+        config.Merge(azKeyVaultService.LoadSecrets(config.AzureKeyName));
       }
 
       return config;

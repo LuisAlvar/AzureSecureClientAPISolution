@@ -39,9 +39,15 @@ namespace SecureAPI.Auth
       Console.WriteLine($"---->  AzureKeyValueService Name -- {KeyValueName}");
     }
 
-    public AuthAppConfig LoadSecrets()
+    public AuthAppConfig LoadSecrets(string VaultName)
     {
       AuthAppConfig config = new AuthAppConfig();
+
+      if(string.IsNullOrEmpty(KeyValueName))
+      {
+        KeyValueName = VaultName;
+        Console.WriteLine($"---->The Vault Azure is set from appsetting.json {KeyValueName}");
+      }
 
       if(!string.IsNullOrEmpty(AzureVaultURL))
       {

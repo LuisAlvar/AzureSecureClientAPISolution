@@ -5,6 +5,6 @@ namespace SecureAPI.Interface
 {
   public interface IAzureKeyVaultService
   {
-    public AuthAppConfig LoadSecrets();
+    public AuthAppConfig LoadSecrets(string VaultName);
   }
 }
