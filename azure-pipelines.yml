@@ -75,3 +75,5 @@ stages:
           ARM_TENANT_ID: $(ARM_TENANT_ID)
           ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
           TF_VAR_imagebuildid: $(tag)
+          TF_VAR_LogAnalyticsWorkSpaceId: $(LogAnalyticsWorkSpaceId)
+          TF_VAR_LogAnalyticsWorkSpaceKey: $(LogAnalyticsWorkSpaceKey)

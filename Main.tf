@@ -9,6 +9,14 @@ variable "imagebuildid" {
   description = "The number for the latest build image from pipeline"
 }
 
+variable "LogAnalyticsWorkSpaceId" {
+  type=string
+}
+
+variable "LogAnalyticsWorkSpaceKey" {
+  type=string
+}
+
 terraform {
   required_providers {
     azurerm = {
@@ -43,6 +51,14 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
   ip_address_type     = "Public"
   dns_name_label      = "archtechorgac"
   os_type             = "Linux"
+  
+  diagnostics {
+    log_analytics {
+      lworkspace_id = var.LogAnalyticsWorkSpaceId
+      workspace_key = var.LogAnalyticsWorkSpaceKey
+    }
+  }
+
   container {
     name = "azsecureapi"
     image = "luisenalvar/azsecureapi:${var.imagebuildid}"
@@ -53,4 +69,5 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
       protocol = "TCP"
     }
   }
+  
 }
