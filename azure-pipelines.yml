@@ -14,6 +14,8 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  targetDockerImageName: 'luisenalvar/azsecureapi'
+  targetDockerReg: 'DockerHub(luisenalvar)'
 
 stages:
   - stage: Docker
@@ -35,13 +37,20 @@ stages:
           ls
           pwd
       - task: Docker@2
+        displayName: 'Build the latest docker image with tag of $(tag)'
         inputs:
-          containerRegistry: 'DockerHub(luisenalvar)'
-      - script: |
-          cd ./SecureAPI
-          docker image build --file Dockerfile --tag azsecureapi --build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name) . 
-          docker image tag azsecureapi luisenalvar/azsecureapi
-          docker push luisenalvar/azsecureapi
+          command: build
+          repository: $(targetDockerImageName)
+          containerRegistry: $(targetDockerReg)
+          tags: $(tag)
+          arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
+      - task: Docker@2
+        displayName: 'Push the latest docker image for tag of $(tag)'
+        inputs:
+          command: push
+          repository: $(targetDockerImageName)
+          containerRegistry: $(targetDockerReg)
+          tags: $(tag)
 
   # - stage: Deploy  
   #   displayName: 'Azure Provision of Resources ...'
