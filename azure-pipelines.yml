@@ -37,7 +37,7 @@ stages:
           ls
           pwd
       - task: Docker@2
-        displayName: 'Build the latest docker image with tag of $(tag)'
+        displayName: 'Build the latest docker image ($(targetDockerImageName)) with tag $(tag)'
         inputs:
           command: build
           repository: $(targetDockerImageName)
@@ -45,7 +45,7 @@ stages:
           tags: $(tag)
           arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
       - task: Docker@2
-        displayName: 'Push the latest docker image for tag of $(tag)'
+        displayName: 'Push the latest docker image ($(targetDockerImageName)) for tag $(tag)'
         inputs:
           command: push
           repository: $(targetDockerImageName)
