@@ -52,13 +52,6 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
   dns_name_label      = "archtechorgac"
   os_type             = "Linux"
   
-  diagnostics {
-    log_analytics {
-      lworkspace_id = var.LogAnalyticsWorkSpaceId
-      workspace_key = var.LogAnalyticsWorkSpaceKey
-    }
-  }
-
   container {
     name = "azsecureapi"
     image = "luisenalvar/azsecureapi:${var.imagebuildid}"
@@ -69,5 +62,13 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
       protocol = "TCP"
     }
   }
+
+  diagnostics {
+    log_analytics {
+      workspace_id = var.LogAnalyticsWorkSpaceId
+      workspace_key = var.LogAnalyticsWorkSpaceKey
+    }
+  }
+
   
 }
