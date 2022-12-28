@@ -1,6 +1,6 @@
 variable "azure_target_zone" {
   type=string
-  default = "west us 2"
+  default = "West US 2"
   description = "Azure Availability Zone"
 }
 
