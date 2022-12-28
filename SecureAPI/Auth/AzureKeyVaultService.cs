@@ -64,18 +64,18 @@ namespace SecureAPI.Auth
 
         properties.ForEach(p => {
           KeyVaultSecret secret =  _client.GetSecret(p.Name.ToString());
-          //Console.WriteLine($"{p.Name} -- {secret.Value}");
+          Console.WriteLine($"{p.Name} -- {secret.Value}");
           vault.GetType().GetProperty(p.Name).SetValue(vault, secret.Value);
         });
 
         Console.WriteLine($"----> Done fetching azure secrets");
 
 
-        //Console.WriteLine($"---> vault object -- " + JsonConvert.SerializeObject(vault).ToString());
+        Console.WriteLine($"---> vault object -- " + JsonConvert.SerializeObject(vault).ToString());
 
         config = _mapper.Map<AuthAppConfig>(vault);
         
-        //Console.WriteLine($"---> config object -- " + JsonConvert.SerializeObject(config).ToString());
+        Console.WriteLine($"---> config object -- " + JsonConvert.SerializeObject(config).ToString());
 
       }
       
