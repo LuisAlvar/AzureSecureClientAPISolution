@@ -22,6 +22,15 @@ provider "azurerm" {
   features {}
 }
 
+terraform {
+  backend "azurerm" {
+    resource_group_name = "tf_api_blobstorage"
+    storage_account_name = "aztfweatherblobstorage"
+    container_name = "tfstatefile"
+    key = "terraform.tfstate"
+  }
+}
+
 resource "azurerm_resource_group" "aztf_secure_api" {
   name = "aztfsecureapirg"
   location = var.azure_target_zone
