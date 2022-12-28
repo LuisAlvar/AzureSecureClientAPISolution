@@ -62,7 +62,6 @@ stages:
         vmImage: ubuntu-latest
       variables:
       - group: TerraformServicePrincipalVars
-      - group: Azure_Key_Vault_Name
       steps:
       - script: |
           set -e
