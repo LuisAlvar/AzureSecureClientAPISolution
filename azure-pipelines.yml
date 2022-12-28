@@ -39,7 +39,7 @@ stages:
           containerRegistry: 'DockerHub(luisenalvar)'
       - script: |
           cd ./SecureAPI
-          docker image build --file **/Dockerfile --tag azsecureapi --build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name) . 
+          docker image build --file Dockerfile --tag azsecureapi --build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name) . 
           docker image tag azsecureapi luisenalvar/azsecureapi
           docker push luisenalvar/azsecureapi
 
