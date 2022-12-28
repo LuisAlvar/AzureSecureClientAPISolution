@@ -4,7 +4,7 @@ variable "azure_target_zone" {
   description = "Azure Availability Zone"
 }
 
-variable "image_build_id" {
+variable "imagebuild_id" {
   type=string
   description = "The number for the latest build image from pipeline"
 }
@@ -38,7 +38,7 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
   os_type             = "Linux"
   container {
     name = "SecureAPI"
-    image = "luisenalvar/azsecureapi:${var.image_build_id}"
+    image = "luisenalvar/azsecureapi:${var.imagebuild_id}"
     cpu = "1.0"
     memory = "1.0"
     ports {

@@ -37,11 +37,33 @@ stages:
       - task: Docker@2
         inputs:
           containerRegistry: 'DockerHub(luisenalvar)'
-          repository: 'luisenalvar/azsecureapi'
-          Dockerfile: '**/Dockerfile'
-          command: 'buildAndPush'
-          arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
-          tags: |
-            $(tag)
+      - script: |
+          cd ./SecureAPI
+          docker image build --file **/Dockerfile --tag azsecureapi --build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name) . 
+          docker image tag azsecureapi luisenalvar/azsecureapi
+          docker push luisenalvar/azsecureapi
 
-
+  # - stage: Deploy  
+  #   displayName: 'Azure Provision of Resources ...'
+  #   dependsOn: Build
+  #   jobs:
+  #   - job: AppDeployment 
+  #     displayName: 'Create a App Container Instance'
+  #     pool:
+  #       vmImage: ubuntu-latest
+  #     variables:
+  #     - group: TerraformServicePrincipalEnvVars
+  #     - group: Azure_Key_Vault_Name
+  #     steps:
+  #     - script: |
+  #         set -e
+  #         terraform init -input=false
+  #         terraform apply -input=false -auto-approve
+  #       name: Terraform 
+  #       displayName: 'Running Terraform  ...'
+  #       env:
+  #         ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+  #         ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+  #         ARM_TENANT_ID: $(ARM_TENANT_ID)
+  #         ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+  #         TF_VAR_imagebuild_id: $(tag)
