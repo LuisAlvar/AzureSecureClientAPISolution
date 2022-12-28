@@ -52,9 +52,9 @@ stages:
           containerRegistry: $(targetDockerReg)
           tags: $(tag)
 
-  - stage: Deploy  
+  - stage: Azure  
     displayName: 'Azure Provision of Resources ...'
-    dependsOn: Build
+    dependsOn: Docker
     jobs:
     - job: AppDeployment 
       displayName: 'Create a App Container Instance'
