@@ -71,6 +71,7 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
 
   identity {
     type = "UserAssigned"
+    #if you manually copy the id from Azure portal to the resourcegroups, but the pipeline is looking for resourceGroups
     identity_ids = [var.UserAssignedAzObjectId]
   }
 
