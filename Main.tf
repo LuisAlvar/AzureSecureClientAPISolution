@@ -17,7 +17,7 @@ variable "LogAnalyticsWorkSpaceKey" {
   type=string
 }
 
-variable "UserAssignedPrincipalId" {
+variable "UserAssignedAzObjectId" {
   type=string
 }
 
@@ -71,7 +71,7 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
 
   identity {
     type = "UserAssigned"
-    identity_ids = [var.UserAssignedPrincipalId]
+    identity_ids = [var.UserAssignedAzObjectId]
   }
 
   diagnostics {

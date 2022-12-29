@@ -78,4 +78,4 @@ stages:
           TF_VAR_imagebuildid: $(tag)
           TF_VAR_LogAnalyticsWorkSpaceId: $(LogAnalyticsWorkSpaceId)
           TF_VAR_LogAnalyticsWorkSpaceKey: $(LogAnalyticsWorkSpaceKey)
-          TF_VAR_UserAssignedPrincipalId: $(UserAssignedPrincipalId)
+          TF_VAR_UserAssignedAzObjectId: $(UserAssignedAzObjectId)
