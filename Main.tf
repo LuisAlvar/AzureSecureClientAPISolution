@@ -17,6 +17,10 @@ variable "LogAnalyticsWorkSpaceKey" {
   type=string
 }
 
+variable "UserAssignedPrincipalId" {
+  type=string
+}
+
 terraform {
   required_providers {
     azurerm = {
@@ -67,7 +71,7 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
 
   identity {
     type = "UserAssigned"
-    identity_ids = [ "${var.TF_VAR_UserAssignedPrincipalId}" ]
+    identity_ids = [ "${var.UserAssignedPrincipalId}" ]
   }
 
   diagnostics {
