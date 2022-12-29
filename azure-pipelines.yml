@@ -62,6 +62,7 @@ stages:
         vmImage: ubuntu-latest
       variables:
       - group: TerraformServicePrincipalVars
+      - group: AzureKeyVaultVars
       steps:
       - script: |
           set -e
@@ -77,3 +78,4 @@ stages:
           TF_VAR_imagebuildid: $(tag)
           TF_VAR_LogAnalyticsWorkSpaceId: $(LogAnalyticsWorkSpaceId)
           TF_VAR_LogAnalyticsWorkSpaceKey: $(LogAnalyticsWorkSpaceKey)
+          TF_VAR_UserAssignedPrincipalId: $(UserAssignedPrincipalId)

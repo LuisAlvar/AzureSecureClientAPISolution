@@ -44,6 +44,8 @@ resource "azurerm_resource_group" "aztf_secure_api" {
   location = var.azure_target_zone
 }
 
+
+
 resource "azurerm_container_group" "aztf_secure_api_container" {
   name                = "SecureAPI"
   location            = azurerm_resource_group.aztf_secure_api.location
@@ -61,6 +63,11 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
       port = 80
       protocol = "TCP"
     }
+  }
+
+  identity {
+    type = "UserAssigned"
+    identity_ids = [ "${var.TF_VAR_UserAssignedPrincipalId}" ]
   }
 
   diagnostics {
