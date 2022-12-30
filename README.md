@@ -15,7 +15,7 @@ dotnet sln AzureSecureSolution.sln add **/*.csproj
 # Azure Setup | App Registrations
 You need an Microsoft Azure account and need to create a new tenant or a tenant other than your Default Directory as of 11/27/2022. 
 
-You will need to switch to your new tenant or existing directory. 
+You will need to switch to your new tenant or existing directory other than your Default Directory. 
 
 Once switched to the proper tenant directory, go to **Azure Active Directory**. 
 Here you will navigate to **App registrations** within the side menu. 
@@ -35,9 +35,9 @@ When you resigter the Web API ensure you able to see the following values on the
 3. Set Application ID URL to the default 
   
 To set the application id url: 
-Go to **Expose an API** window, on the top of the window set the applicaiton id url to the default value given by Azure. 
+- Go to **Expose an API** window, on the top of the window set the applicaiton id url to the default value given by Azure. 
 
-We need to add an App role. We can do this manually or edit the manifest file at the appRoles level. 
+Next, we need to add an App role. We can do this manually or edit the manifest file at the appRoles level. 
 
 	"appRoles": [],
 
