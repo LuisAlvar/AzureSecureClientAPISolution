@@ -22,9 +22,10 @@ namespace SecureAPI.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            Console.WriteLine("---> Created the WeatherForecastController object with no problem");
         }
 
-        // [Authorize]
+        [Authorize]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

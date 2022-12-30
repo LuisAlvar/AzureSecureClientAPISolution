@@ -48,8 +48,6 @@ resource "azurerm_resource_group" "aztf_secure_api" {
   location = var.azure_target_zone
 }
 
-
-
 resource "azurerm_container_group" "aztf_secure_api_container" {
   name                = "SecureAPI"
   location            = azurerm_resource_group.aztf_secure_api.location
@@ -81,6 +79,6 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
       workspace_key = var.LogAnalyticsWorkSpaceKey
     }
   }
-
-  
 }
+
+

@@ -116,6 +116,14 @@ namespace SecureClient
 
         private static async Task AzureClientConnectionAsync(AuthConfig AppConfiguration)
         {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("\nEstablish who we are .......");
+            Console.WriteLine($"---> Client id {AppConfiguration.ClientId}");
+            Console.WriteLine($"---> Client Secret for authenticate {AppConfiguration.ClientSecret}");
+            Console.WriteLine($"---> Under {AppConfiguration.Authority}");
+            Console.ResetColor();
+
+
             IConfidentialClientApplication app;
             app = ConfidentialClientApplicationBuilder.Create(AppConfiguration.ClientId)
             .WithClientSecret(AppConfiguration.ClientSecret)
@@ -125,11 +133,14 @@ namespace SecureClient
             string[] ResouceIds = new string[] {AppConfiguration.ResourceId};
             AuthenticationResult  result = null;
 
-            
-            Console.WriteLine("Waiting for Token.......");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\nAttempting to access");
+            Console.WriteLine($"---> Application Id or Resource Id {AppConfiguration.ResourceId}");
+            Console.ResetColor();
 
             try
             {
+                Console.WriteLine("Waiting for Token.......");
                 result = await app.AcquireTokenForClient(ResouceIds).ExecuteAsync();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"--- Token Aquired: {result.AccessToken}");
