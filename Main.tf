@@ -21,6 +21,10 @@ variable "UserAssignedAzObjectId" {
   type=string
 }
 
+variable "AzureKeyVaultName" {
+  type=string
+}
+
 terraform {
   required_providers {
     azurerm = {
@@ -64,6 +68,9 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
     ports {
       port = 80
       protocol = "TCP"
+    }
+    environment_variables = {
+      KEYVAULTNAME = var.AzureKeyVaultName
     }
   }
 

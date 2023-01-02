@@ -80,3 +80,4 @@ stages:
           TF_VAR_LogAnalyticsWorkSpaceId: $(LogAnalyticsWorkSpaceId)
           TF_VAR_LogAnalyticsWorkSpaceKey: $(LogAnalyticsWorkSpaceKey)
           TF_VAR_UserAssignedAzObjectId: $(UserAssignedAzObjectId)
+          TF_VAR_AzureKeyVaultName: $(Azure_Key_Vault_Name)
