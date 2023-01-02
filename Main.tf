@@ -70,7 +70,7 @@ resource "azurerm_container_group" "aztf_secure_api_container" {
       protocol = "TCP"
     }
     environment_variables = {
-      KEYVAULTNAME = var.AzureKeyVaultName
+      Azure_Key_Vault_Name = var.AzureKeyVaultName
     }
   }
 
