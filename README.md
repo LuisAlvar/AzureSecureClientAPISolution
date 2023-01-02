@@ -180,9 +180,19 @@ Then run the following powershell scripts within each root directory project. Th
 
 Then you can run both projects. First the API and then the console app. 
 
-# UAT or Pre-Production Environment 
-To locally test production functionality you can change the ASPNETCORE_ENVIRONMENT from **Development** to **Production** launchSettings.json 
+# UAT or Pre-Production Environment(s)
 
+## <ins>**Azure Key Vault**<ins> 
+The main requirement for using Azure Key Vault in your code is to have access to your azure account, this way you can use the DefaultAzureCredential object or need for the token route option. 
+```cs
+new SecretClient(new Uri(AzureVaultURL), new DefaultAzureCredential());
+```
+So, in a UAT local environment you can change the ASPNETCORE_ENVRIONMENT to Production. Then login into your azure account and set which subscription account.
+```bash 
+az login
+az account set --subscription "21848119-f256-48cb-8092-a5f72366974c"
+```
+To locally test production functionality you can change the ASPNETCORE_ENVIRONMENT from **Development** to **Production** on launchSettings.json and execute the dotnet-run command
 ```json
 {
   "profiles": {
@@ -191,15 +201,15 @@ To locally test production functionality you can change the ASPNETCORE_ENVIRONME
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     }
   }
 }
 ```
-Run the applicaiton using **dotnet run** command 
+Now, this is a manualy process still. To start we need to create a docker image. 
+When you create an Azure Key Vault you give it a name which becomes part of the Vault URL. For example, testazuekeyvault: https://testazurekeyvault.vault.azure.net/.
 
-Or, we can create an docker image for a more production setting environment. 
 
 ## Types of Docker Environment Variables 
 There are two enviroment variable types: 
