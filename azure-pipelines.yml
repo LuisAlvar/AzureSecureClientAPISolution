@@ -44,7 +44,7 @@ stages:
           repository: $(targetDockerImageName)
           containerRegistry: $(targetDockerReg)
           tags: $(tag)
-          arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
+          # arguments: '--build-arg KEYVAULTNAME=$(Azure_Key_Vault_Name)'
       - task: Docker@2
         displayName: 'Push the latest docker image ($(targetDockerImageName)) for tag $(tag)'
         inputs:

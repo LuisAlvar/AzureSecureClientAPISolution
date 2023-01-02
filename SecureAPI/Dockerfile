@@ -1,8 +1,8 @@
 # Full .NET Core 6.0 SDK
 # https://hub.docker.com/_/microsoft-dotnet-sdk
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
-ARG KEYVAULTNAME
-ENV Azure_Key_Vault_Name $KEYVAULTNAME
+# ARG KEYVAULTNAME
+ENV Azure_Key_Vault_Name ""
 RUN echo "Environment variable Azure_Key_Vault_Name is set to $Azure_Key_Vault_Name"
 WORKDIR /app
 
