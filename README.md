@@ -158,7 +158,7 @@ For the SecureClient project
   
 SecureAPIApp_TenantId == SecureClientApp_TenantId should be the same. 
 
-<ins>**You can name these as you see please.**</ins>
+<ins>You can name these as you see fit.</ins>
 ### **<ins>Load System/User Environment Windows as User Secrets within .NET Core Environment</ins>**
 
 If this is the first attempt loading User Secrets to .NET Core, then run the following:
@@ -183,6 +183,7 @@ Then you can run both projects. First the API and then the console app.
 # UAT or Pre-Production Environment(s)
 
 ## <ins>**Azure Key Vault**<ins> 
+When you create an Azure Key Vault you give it a name which becomes part of the Vault URL. For example, testazuekeyvault: https://testazurekeyvault.vault.azure.net/.
 The main requirement for using Azure Key Vault in your code is to have access to your azure account, this way you can use the DefaultAzureCredential object or need for the token route option. 
 ```cs
 new SecretClient(new Uri(AzureVaultURL), new DefaultAzureCredential());
@@ -207,17 +208,20 @@ To locally test production functionality you can change the ASPNETCORE_ENVIRONME
   }
 }
 ```
-Now, this is a manualy process still. To start we need to create a docker image. 
-When you create an Azure Key Vault you give it a name which becomes part of the Vault URL. For example, testazuekeyvault: https://testazurekeyvault.vault.azure.net/.
-
+Now, this is a manualy process still. 
+To start we need to create a docker image, we need to somehow pass this testazuekeyvault value as a environment variable within the docker image or running container at the start.
 
 ## Types of Docker Environment Variables 
 There are two enviroment variable types: 
 * ARG variables usually store important high-level configuration parameters, such as the version of the OS or a library. They are build-time variables, i.e., their only purpose is to assist in building a Docker image. 
-  
 * ENV variables store values such as secrets, API keys, and database URLs. They persist inside the image and the containers created from that template. Users can override ENV values in the command line or proivde an new value in an env file. 
-  
-	
+
+```bash  
+docker build -t luisenalvar/test_azsecureapi --build-arg KEYVAULTNAME="testazuekeyvault" .
+docker run --name test_azsecureapi -e "KEYVAULTNAME=testazuekeyvault" luisenalvar/azsecureapi -p 8080:80 -d
+docker container inspect test_azsecureapi
+```
+
 
 # Next Steps
 The objective for this project to add these project in a production environment. 
