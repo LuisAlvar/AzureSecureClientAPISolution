@@ -211,18 +211,98 @@ To locally test production functionality you can change the ASPNETCORE_ENVIRONME
 Now, this is a manualy process still. 
 To start we need to create a docker image, we need to somehow pass this testazuekeyvault value as a environment variable within the docker image or running container at the start.
 
+## <ins>**Docker**<ins> 
 ## Types of Docker Environment Variables 
 There are two enviroment variable types: 
 * ARG variables usually store important high-level configuration parameters, such as the version of the OS or a library. They are build-time variables, i.e., their only purpose is to assist in building a Docker image. 
 * ENV variables store values such as secrets, API keys, and database URLs. They persist inside the image and the containers created from that template. Users can override ENV values in the command line or proivde an new value in an env file. 
 
+First attempt: 
+```dockerfile
+# Full .NET Core 3.1 SDK
+# https://hub.docker.com/_/microsoft-dotnet-sdk
+FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
+ARG KEYVAULTNAME
+ENV Azure_Key_Vault_Name $KEYVAULTNAME
+RUN echo "Environment variable Azure_Key_Vault_Name is set to $Azure_Key_Vault_Name"
+WORKDIR /app
+```
 ```bash  
 docker build -t luisenalvar/test_azsecureapi --build-arg KEYVAULTNAME="testazuekeyvault" .
 docker run --name test_azsecureapi -e "KEYVAULTNAME=testazuekeyvault" luisenalvar/azsecureapi -p 8080:80 -d
 docker container inspect test_azsecureapi
 ```
+This will fail because within the "docker space" you are not login into Azure CLI. 
 
 
+## <ins>**Azure DevOps Pipeline**<ins> 
+You need to create a new project. 
+
+On the Project Settings > Pipelines > Service connections
+* You will add a github connection 
+* You will add a Docker Hub connection
+
+Next On Pipelines > Create a New Pipeline. 
+Go throught the steps from github to commiting the azure-pipeline.yaml file to your repo. 
+
+### **Azure Resources & Terraform** 
+You need to have created the following Azure resource before hand. 
+Under a resource group called **AzureRGA**, I have the following azure resoruces attached to this resource group.
+1. Azure Key Vault Instance
+2. Log Analytics workspace
+3. Managed Identity 
+
+If you want your console.writeline statements to be saved in the azure cloud one option is to use [Log Analytics workspace](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-log-analytics). 
+You simple create the resource and you need to save two pieces of information 
+
+| |  |
+|------|-------|
+|Workspace ID| 1fccf277-5847-46df-b6ad-bec55c884f1d |
+|Primary Key ID | 0deb530094324af9a3b6c7654ed83cba|
+
+Next we need a managed identity to access our Azure Key Vault, so you need to create a [Managed Identity](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-managed-identity). 
+
+Once your Managed Identity instance is created, then go to Azure role assignments and add a new role. 
+
+| Role | Resource Name  | Resource Type | Assigned To | Condition
+|------|-------| ---- | --- | ---|
+|Contributor| AzureKeyVaultInst | Key Vault | NameOfManagedIdentity| None
+
+Now you need to go to Overview > JSON view. 
+You are going to save the id value
+
+```json
+{
+    "id": ".../resourceGroup/....",
+    "name": "...",
+    "type": "...",
+    "location": "...",
+    "tags": {},
+    "properties": {
+        "tenantId": "...",
+        "principalId": "...",
+        "clientId": "..."
+    }
+}
+```
+As of 01/23, there is a bug somewhere. if you copy the id directly from the Azure you given a value with /resourcegroups/. 
+But if you pass this to Terraform it will not parse the information correctly and it will tell you have its looking for 
+/resourceGroups/. So this is the only manaully thing you haved to fix before you add this value to your Azure Pipeline variable library group. 
+
+I have two variable library groups: TerraformServicePrincipalVars and AzureKeyVaultVars, which contains all of these sensative 
+vaules you see in the main yaml file. 
+```yaml
+        env:
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+          ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
+          ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+					...
+          TF_VAR_LogAnalyticsWorkSpaceId: $(LogAnalyticsWorkSpaceId)
+          TF_VAR_LogAnalyticsWorkSpaceKey: $(LogAnalyticsWorkSpaceKey)
+          TF_VAR_UserAssignedAzObjectId: $(UserAssignedAzObjectId)
+          TF_VAR_AzureKeyVaultName: $(Azure_Key_Vault_Name)
+```
 
 # Next Steps
 The objective for this project to add these project in a production environment. 
@@ -238,7 +318,6 @@ Azure_Key_Vault_Name - for production will need to be a environment variable gro
 
 
 # Web Resources
-
 [Secure a .NET Core API with Bearer Authentication](https://www.youtube.com/watch?v=3PyUjOmuFic)
   
 [Safe sotrage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows])
