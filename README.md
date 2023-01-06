@@ -250,7 +250,7 @@ You need to have created the following Azure resource before hand.
 Under a resource group called **AzureRGA**, I have the following azure resoruces attached to this resource group.
 1. Azure Key Vault Instance
 2. Log Analytics workspace
-3. Managed Identity 
+3. Managed Identity
 
 If you want your console.writeline statements to be saved in the azure cloud one option is to use [Log Analytics workspace](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-log-analytics). 
 You simple create the resource and you need to save two pieces of information 
@@ -305,17 +305,7 @@ vaules you see in the main yaml file.
 ```
 
 # Next Steps
-The objective for this project to add these project in a production environment. 
-I need to research how Key Valute on Azure works. 
-
-[Azure Key Vault Docs](https://learn.microsoft.com/en-us/azure/key-vault/)
-
-az login
-
-az account set --subscription "35akss-subscription-id"
-
-Azure_Key_Vault_Name - for production will need to be a environment variable group in the devops pipeline
-
+Apply this knowledge to another project
 
 # Web Resources
 [Secure a .NET Core API with Bearer Authentication](https://www.youtube.com/watch?v=3PyUjOmuFic)
@@ -325,3 +315,5 @@ Azure_Key_Vault_Name - for production will need to be a environment variable gro
 [How to Set Docker Environment Variables](https://phoenixnap.com/kb/docker-environment-variables)
 
 [These GUIDs are generated randomly from an online geneartor - for demonstaration purposes only disclaimer](https://guidgenerator.com/online-guid-generator.aspx)
+
+[Azure Key Vault Docs](https://learn.microsoft.com/en-us/azure/key-vault/)

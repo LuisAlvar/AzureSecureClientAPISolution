@@ -1,4 +1,4 @@
-# Full .NET Core 6.0 SDK
+# Full .NET Core 3.1 SDK
 # https://hub.docker.com/_/microsoft-dotnet-sdk
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 # ARG KEYVAULTNAME
